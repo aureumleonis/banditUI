@@ -1,8 +1,10 @@
 package articleRecommendationSystem;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -19,7 +21,7 @@ import com.aliasi.tokenizer.TokenizerFactory;
 public class WordCounter {
 
 	public void CountWordsAllArticles(String topic, HashMap<String, Integer> wordCounts,
-			Calendar startDate, Calendar endDate, String baseDir)
+			Calendar startDate, Calendar endDate, String baseDir, String outfile)
 	{
 		String dirStr;
 		File dir;
@@ -29,6 +31,7 @@ public class WordCounter {
 		{
 			dirStr = baseDir + (startDate.get(Calendar.MONTH)+1) + '-' + startDate.get(Calendar.DATE)
 					+ '-' + startDate.get(Calendar.YEAR);
+			System.out.println(dirStr);			
 			dir = new File(dirStr);
 			filesInDir = dir.listFiles();
 			for (File f : filesInDir)
@@ -51,8 +54,28 @@ public class WordCounter {
 					}
 				}
 				
-				System.out.println("Read article : " + f.getAbsolutePath());
 			}
+			startDate.add(Calendar.DATE, 1);
+		}
+		BufferedWriter out = null;
+		try {
+			out = new BufferedWriter(new FileWriter(outfile));
+		} catch (IOException e) {
+			System.out.println("Failed to open output file");
+		}
+		for (String key : wordCounts.keySet())
+		{
+			try {
+				out.write(key + ',' + wordCounts.get(key) + "\r\n");
+			} catch (IOException e) {
+				System.out.println("Failed to write key " + key + " to outfile");
+				continue;
+			}
+		}
+		try {
+			out.close();
+		} catch (IOException e) {
+			System.out.println("Failed to close output file");
 		}
 	}
 	
@@ -66,10 +89,11 @@ public class WordCounter {
 				wordCounts.put(word, wordCounts.get(word)+1);
 			else
 				wordCounts.put(word, 1);
+			int q = 4;
 		}
 	}
 	
-	public String FormatArticleWords(String article)
+	private String FormatArticleWords(String article)
 	{
 		StringTokenizer st = new StringTokenizer(article, ":");
 		String aux = "";
@@ -104,6 +128,14 @@ public class WordCounter {
 		//take out '
 		article = aux;
 		st = new StringTokenizer(article, "'");
+		aux = "";
+		while (st.hasMoreTokens()){
+		aux = aux + st.nextToken();
+		aux = aux + " "; //so that it does not loose a space
+		}
+		//take out "
+		article = aux;
+		st = new StringTokenizer(article, "\"");
 		aux = "";
 		while (st.hasMoreTokens()){
 		aux = aux + st.nextToken();
@@ -229,7 +261,7 @@ public class WordCounter {
 		return result;
 	}
 
-	public Article readArticle(String infile) throws IOException
+	private Article readArticle(String infile) throws IOException
 	{
 		int day, month, year;
 		String inputLine, dateStr, topic, url, article = "";

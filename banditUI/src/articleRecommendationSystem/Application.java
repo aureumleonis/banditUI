@@ -1,25 +1,73 @@
 package articleRecommendationSystem;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 
 
+
 public class Application {
 
 	
 	public static void main(String[] args) throws Exception {
-		WordCounter wc = new WordCounter();
-		Article a = wc.readArticle("F:\\BanditProject\\Articles\\1-3-2013\\autopsy-cowboys-player-killed-in-crash-was-sober.txt");
-		String formatted = wc.FormatArticleWords(a.story);
-		System.out.println(formatted);
+		Application app = new Application(); 
+		String[] topics = { "Entertainment", "Health", "MoneyWatch", "Politics", "Sports",
+				"Tech", "US", "World" };
+		for (String topic : topics)
+		{
+			app.FindFrequentWords(topic, 1000, 10000);
+			app.FindFrequentWords(topic, 2000, 10000);
+			app.FindFrequentWords(topic, 3000, 10000);
+			app.FindFrequentWords(topic, 4000, 10000);
+			app.FindFrequentWords(topic, 5000, 10000);
+		}
+	}
+	
+	
+	@SuppressWarnings("unused")
+	private void FindFrequentWords(String topic, int min_appearances, int max_appearances) throws Exception
+	{
+		HashMap<String, Integer> wordCounts = new HashMap<String, Integer>();
+		HashMap<String, Integer> frequentCounts = new HashMap<String, Integer>();
+		BufferedReader in = new BufferedReader(new FileReader("WordCounts-"+topic+".csv"));
+		String inline;
+		while ((inline = in.readLine())!=null)
+		{
+			String[] s = inline.split(",");
+			wordCounts.put(s[0], Integer.parseInt(s[1]));
+		}
+		in.close();
+		
+		for (String s : wordCounts.keySet())
+		{
+			if (wordCounts.get(s) > min_appearances && wordCounts.get(s) < max_appearances 
+					&& s.length() > 1)
+			{
+				try {
+					Float.parseFloat(s);
+				}
+				catch(Exception e)
+				{
+					frequentCounts.put(s, wordCounts.get(s));
+				}
+			}
+		}
+		
+		String outfile = "WordCounts-" + topic + "-" + min_appearances + ".csv";
+		BufferedWriter out = new BufferedWriter(new FileWriter(outfile));
+		for (String s : frequentCounts.keySet())
+		{
+			out.write(s + ',' + frequentCounts.get(s) + "\r\n");
+		}
+		out.close();
 	}
 
-	
 	@SuppressWarnings("unused")
 	private void GetArticlesFromRangeOfPages(String topic, int lowPage, int highPage)
 	{
