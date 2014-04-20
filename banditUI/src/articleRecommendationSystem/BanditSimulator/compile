@@ -1,2 +1,0 @@
-javac -d . Main.java Person.java Context.java
-jar -cmf manifest.mf app.jar system
