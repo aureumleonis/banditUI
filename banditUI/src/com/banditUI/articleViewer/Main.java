@@ -1,13 +1,13 @@
-package com.banditUI.articleViewer;
+package system;
 
-import java.util.Scanner;
+import java.util.Calendar;
 
 
 public class Main {
 
     public static void main(String[] args) {
-        Person p1 = new Person(false);
-        Context c1 = new Context();
+
+
     }
 
 }

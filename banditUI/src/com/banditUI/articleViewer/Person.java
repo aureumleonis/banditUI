@@ -1,10 +1,21 @@
-package com.banditUI.articleViewer;
+package system;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 
 public class Person {
     
+	public static final int ENTERTAINMENT = 0;
+	public static final int HEALTH = 1;
+	public static final int MONEYWATCH = 2;
+	public static final int POLITICS = 3;
+	public static final int SPORTS = 4;
+	public static final int TECH = 5;
+	public static final int US = 6;
+	public static final int WORLD = 7;
+	
     private static final int DICT_SIZE_ENTERTAINMENT = 597;
     private static final int DICT_SIZE_HEALTH        = 323;
     private static final int DICT_SIZE_MONEYWATCH    = 334;
@@ -30,14 +41,14 @@ public class Person {
     // Feature vectors for each article topic.
     // Each vector is the corresponding DICT_SIZE in length
     // and each entry is in the range [0, 1]
-    private double[] Entertainment_Feature_Vector;
-    private double[] Health_Feature_Vector;
-    private double[] MoneyWatch_Feature_Vector;
-    private double[] Politics_Feature_Vector;
-    private double[] Sports_Feature_Vector;
-    private double[] Tech_Feature_Vector;
-    private double[] US_Feature_Vector;
-    private double[] World_Feature_Vector;
+    private HashMap<String, Double> Entertainment_Feature_Vector;    
+    private HashMap<String, Double> Health_Feature_Vector;
+    private HashMap<String, Double> MoneyWatch_Feature_Vector;
+    private HashMap<String, Double> Politics_Feature_Vector;
+    private HashMap<String, Double> Sports_Feature_Vector;
+    private HashMap<String, Double> Tech_Feature_Vector;
+    private HashMap<String, Double> US_Feature_Vector;
+    private HashMap<String, Double> World_Feature_Vector;
 
     
     public Person(boolean random) {
@@ -56,33 +67,38 @@ public class Person {
     }   
     
     private void FillFeatureVectors() {
-    	Entertainment_Feature_Vector = new double[DICT_SIZE_ENTERTAINMENT];
-        Health_Feature_Vector = new double[DICT_SIZE_HEALTH];
-        MoneyWatch_Feature_Vector = new double[DICT_SIZE_MONEYWATCH];
-        Politics_Feature_Vector = new double[DICT_SIZE_POLITICS]; 
-        Sports_Feature_Vector = new double[DICT_SIZE_SPORTS]; 
-        Tech_Feature_Vector = new double[DICT_SIZE_TECH];
-        US_Feature_Vector = new double[DICT_SIZE_US];
-        World_Feature_Vector = new double[DICT_SIZE_WORLD];
+      	Entertainment_Feature_Vector = new HashMap<String, Double>();
+        Health_Feature_Vector = new HashMap<String, Double>();
+        MoneyWatch_Feature_Vector = new HashMap<String, Double>();
+        Politics_Feature_Vector = new HashMap<String, Double>();
+        Sports_Feature_Vector = new HashMap<String, Double>(); 
+        Tech_Feature_Vector = new HashMap<String, Double>();
+        US_Feature_Vector = new HashMap<String, Double>();
+        World_Feature_Vector = new HashMap<String, Double>();
         
-        double[][] FeatureVectors = { Entertainment_Feature_Vector,
-        							  Health_Feature_Vector,
-        							  MoneyWatch_Feature_Vector,
-        							  Politics_Feature_Vector,
-        							  Sports_Feature_Vector,
-        							  Tech_Feature_Vector,
-        							  US_Feature_Vector,
-        							  World_Feature_Vector };
-
+        ArrayList<HashMap<String, Double>> FeatureVectors = new ArrayList<HashMap<String, Double>>();
+        FeatureVectors.add(Entertainment_Feature_Vector);
+        FeatureVectors.add(Health_Feature_Vector);
+        FeatureVectors.add(MoneyWatch_Feature_Vector);
+        FeatureVectors.add(Politics_Feature_Vector);
+        FeatureVectors.add(Sports_Feature_Vector);
+        FeatureVectors.add(Tech_Feature_Vector);
+        FeatureVectors.add(US_Feature_Vector);
+        FeatureVectors.add(World_Feature_Vector);
+        
+        Dictionaries dictionaries = Dictionaries.getInstance();
+        String[] Topics = {"Entertainment", "Health", "MoneyWatch", "Politics",
+        		"Sports", "Tech", "US", "World" };
+        
         // 
         // Fill in each feature vector with random doubles in [0, 1)
-        for (int i = 0; i < FeatureVectors.length; i++) {
-        	for (int j = 0; j < FeatureVectors[i].length; j++) {
-        		FeatureVectors[i][j] = Math.random();
+        for (int i = 0; i < Topics.length; i++) {
+        	HashMap<String, Double> dict = dictionaries.getDictionary(Topics[i]);
+        	HashMap<String, Double> features = FeatureVectors.get(i);
+        	for (String key : dict.keySet()) {
+        		features.put(key, Math.random());
         	}
         }
-        
-        
     }
  
     private void RandomizeDispositions() {
@@ -135,5 +151,53 @@ public class Person {
 			World_Disposition = s.nextDouble();
 		}
     	s.close();
+    }
+    
+    public HashMap<String, Double> GetFeatureVector(int topic) {
+    	switch (topic) {
+    	case ENTERTAINMENT:
+    		return Entertainment_Feature_Vector;
+    	case HEALTH:
+    		return Health_Feature_Vector;
+    	case MONEYWATCH:
+    		return MoneyWatch_Feature_Vector;
+    	case POLITICS:
+    		return Politics_Feature_Vector;
+    	case SPORTS:
+    		return Sports_Feature_Vector;
+    	case TECH:
+    		return Tech_Feature_Vector;
+    	case US:
+    		return US_Feature_Vector;
+    	case WORLD:
+    		return World_Feature_Vector;
+    	default:
+    		System.out.println("Invalid request for feature vector.");
+    		return null;	
+    	}
+    }
+    
+    public HashMap<String, Double> GetFeatureVector(String topic) {
+    	switch (topic.toUpperCase()) {
+    	case "ENTERTAINMENT":
+    		return Entertainment_Feature_Vector;
+    	case "HEALTH":
+    		return Health_Feature_Vector;
+    	case "MONEYWATCH":
+    		return MoneyWatch_Feature_Vector;
+    	case "POLITICS":
+    		return Politics_Feature_Vector;
+    	case "SPORTS":
+    		return Sports_Feature_Vector;
+    	case "TECH":
+    		return Tech_Feature_Vector;
+    	case "US":
+    		return US_Feature_Vector;
+    	case "WORLD":
+    		return World_Feature_Vector;
+    	default:
+    		System.out.println("Invalid request for feature vector.");
+    		return null;	
+    	}
     }
 }

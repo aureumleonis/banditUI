@@ -1,2 +1,2 @@
-javac -d . Main.java Person.java Context.java
+javac -d . Article.java ClickProbCalc.java Context.java Dictionaries.java Main.java Person.java TestFunctions.java WordCounter.java
 jar -cmf manifest.mf app.jar system
