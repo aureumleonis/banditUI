@@ -6,14 +6,14 @@ import java.util.HashMap;
 
 public class Context {
 	
-	public static final int ENTERTAINMENT = 0;
-	public static final int HEALTH = 1;
-	public static final int MONEYWATCH = 2;
-	public static final int POLITICS = 3;
-	public static final int SPORTS = 4;
-	public static final int TECH = 5;
-	public static final int US = 6;
-	public static final int WORLD = 7;
+    public static final int ENTERTAINMENT = 0;
+    public static final int HEALTH = 1;
+    public static final int MONEYWATCH = 2;
+    public static final int POLITICS = 3;
+    public static final int SPORTS = 4;
+    public static final int TECH = 5;
+    public static final int US = 6;
+    public static final int WORLD = 7;
 
     private static final int DICT_SIZE_ENTERTAINMENT = 597;
     private static final int DICT_SIZE_HEALTH        = 323;
