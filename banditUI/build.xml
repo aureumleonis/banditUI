@@ -35,7 +35,7 @@
 		<!-- Put everything in ${build} into the MyProject-${DSTAMP}.jar file -->
 		<jar jarfile="${dist}/lib/articleViewer.jar" basedir="${build}">
 			<manifest>
-				<attribute name="Main-Class" value="com.banditUI.articleViewer.Main"/>
+				<attribute name="Main-Class" value="system.Main"/>
 		    </manifest>
 		</jar>
 	</target>
