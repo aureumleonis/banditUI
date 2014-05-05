@@ -1,4 +1,4 @@
-package system;
+package com.banditUI.articleViewer.system;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -150,7 +150,6 @@ public class Person {
 			System.out.print("World : ");
 			World_Disposition = s.nextDouble();
 		}
-    	s.close();
     }
     
     public HashMap<String, Double> GetFeatureVector(int topic) {

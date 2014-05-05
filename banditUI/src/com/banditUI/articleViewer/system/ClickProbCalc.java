@@ -1,4 +1,4 @@
-package system;
+package com.banditUI.articleViewer.system;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -11,8 +11,16 @@ import java.util.Scanner;
 public class ClickProbCalc {
 
 	private static Dictionaries dictionaries = Dictionaries.getInstance();
+	
+	
+	
+	public static double calcClickProb(String articlePath, HashMap<String,Double> FeatureVector) {
+		double score = calcFeatureVectorScore(articlePath, FeatureVector);
+		double click_chance = 1.0 - 1.0/(Math.exp(2*score));
+		return click_chance;
+	}
     
-    public static double CalcFeatureVectorScore( String articlePath, HashMap<String,Double> FeatureVector ) {
+    private static double calcFeatureVectorScore( String articlePath, HashMap<String,Double> FeatureVector ) {
     	double score = 0;
     	
     	// Read the article, and get the appropriate dictionary.
@@ -35,6 +43,8 @@ public class ClickProbCalc {
     	
     	return score;
     }
+    
+    
 	
     
 

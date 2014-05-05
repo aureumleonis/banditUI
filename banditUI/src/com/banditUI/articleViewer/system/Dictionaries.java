@@ -1,4 +1,4 @@
-package system;
+package com.banditUI.articleViewer.system;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -34,7 +34,8 @@ public class Dictionaries {
     
     protected Dictionaries () {
     	String baseDir;
-    	Scanner s = new Scanner(System.in);
+    	@SuppressWarnings("resource")
+		Scanner s = new Scanner(System.in);
     	System.out.println("Please input the location of the feature dictionaries : ");
     	while (true) {
 	    	baseDir = s.next();
@@ -48,7 +49,6 @@ public class Dictionaries {
 	    		continue;
 	    	}
     	}
-    	s.close();
     }
     
     public static Dictionaries getInstance() {

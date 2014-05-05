@@ -1,4 +1,4 @@
-package system;
+package com.banditUI.articleViewer.system;
 
 import java.util.regex.*;
 import java.util.Random;

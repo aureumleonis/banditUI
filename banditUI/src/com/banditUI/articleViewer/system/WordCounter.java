@@ -1,4 +1,4 @@
-package system;
+package com.banditUI.articleViewer.system;
 
 import java.io.File;
 import java.util.Calendar;

@@ -1,4 +1,4 @@
-package system;
+package com.banditUI.articleViewer.system;
 
 import java.awt.*;
 import javax.swing.BorderFactory; 

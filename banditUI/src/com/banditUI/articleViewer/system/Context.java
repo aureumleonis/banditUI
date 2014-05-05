@@ -1,4 +1,4 @@
-package system;
+package com.banditUI.articleViewer.system;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -67,10 +67,10 @@ public class Context {
     public Context() {
     	//
     	// Fill feature vectors with optimistic estimates
-        FillFeatureVectors();
+        fillFeatureVectors();
     }   
     
-    private void FillFeatureVectors() {
+    private void fillFeatureVectors() {
     	Entertainment_Feature_Vector = new HashMap<String, Double>();
         Health_Feature_Vector = new HashMap<String, Double>();
         MoneyWatch_Feature_Vector = new HashMap<String, Double>();
@@ -105,7 +105,7 @@ public class Context {
         }
     }
  
-    public void IncrementArticlesSeen(int articleTopic) {
+    public void incrementArticlesSeen(int articleTopic) {
     	switch (articleTopic) {
     	  case ENTERTAINMENT:
     		  Num_Displayed_Entertainment++;
@@ -136,7 +136,7 @@ public class Context {
     	}
     }
     
-    public HashMap<String, Double> GetFeatureVector(int topic) {
+    public HashMap<String, Double> getFeatureVector(int topic) {
     	switch (topic) {
     	case ENTERTAINMENT:
     		return Entertainment_Feature_Vector;
@@ -160,7 +160,7 @@ public class Context {
     	}
     }
     
-    public HashMap<String, Double> GetFeatureVector(String topic) {
+    public HashMap<String, Double> getFeatureVector(String topic) {
     	switch (topic.toUpperCase()) {
     	case "ENTERTAINMENT":
     		return Entertainment_Feature_Vector;

@@ -1,4 +1,4 @@
-package system;
+package com.banditUI.articleViewer.system;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

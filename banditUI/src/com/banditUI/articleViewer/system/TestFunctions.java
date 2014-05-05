@@ -1,4 +1,4 @@
-package system;
+package com.banditUI.articleViewer.system;
 
 import java.io.File;
 import java.util.Calendar;
@@ -11,7 +11,7 @@ public class TestFunctions {
 	// class. This will be used to determine the general range of scores that this function
 	// returns. 
 	
-	public static double[] CalcFeatureVectorsAllArticles(Person p, Calendar startDate, 
+	public static double[] calcClickProbsAllArticles(Person p, Calendar startDate, 
 			Calendar endDate, String baseDir, boolean printAll) {
 		// stats indices are
 		//   0 -- min value
@@ -40,7 +40,7 @@ public class TestFunctions {
 			for (File f : filesInDir)
 			{
 				a = new Article(f.getAbsolutePath());
-				score = ClickProbCalc.CalcFeatureVectorScore(f.getAbsolutePath(), 
+				score = ClickProbCalc.calcClickProb(f.getAbsolutePath(), 
 						p.GetFeatureVector(a.getTopic()));
 				if (score < 0) continue;
 				if (score < min) min = score;
@@ -48,7 +48,8 @@ public class TestFunctions {
 				if (score == 0) zeros++;
 				samples++;
 				mean += score;
-				System.out.println(score);
+				if (printAll)
+					System.out.println(score);
 			}
 			startDate.add(Calendar.DATE, 1);
 		}
@@ -63,8 +64,9 @@ public class TestFunctions {
 		System.out.println("MIN  : " + min);
 		System.out.println("MAX  : " + max);
 		System.out.println("MEAN : " + mean);
-		System.out.println("ZERO :" + zeros);
+		System.out.println("ZERO : " + zeros);
 		
 		return stats;
 	}
+	
 }
