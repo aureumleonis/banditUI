@@ -2,11 +2,20 @@ package com.banditUI.articleViewer.system;
 
 import java.util.Calendar;
 import java.util.ArrayList;
+
 import javax.swing.SwingUtilities;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) {  
+
+    	Dictionaries d = Dictionaries.getInstance();
+    	ArticleSource s = new ArticleSource();
+    	Person billy = new Person(true);
+    	Calendar date = Calendar.getInstance();
+    	date.set(2013, 6, 1);
+    	Exp4Simulator sim = new Exp4Simulator(billy, 15, s, 8, .5);
+    	sim.runSimulationOneDay(date);
     	/*
 		System.out.println("Dummy results");
     	SwingUtilities.invokeLater(new Runnable() {
@@ -17,13 +26,8 @@ public class Main {
             }
         });
         */
-    	Calendar startDate = Calendar.getInstance();
-    	Calendar endDate = Calendar.getInstance();
-    	startDate.set(2013, 6, 1);
-    	endDate.set(2014, 0, 1);
-    	Person p = new Person(false);
-    	TestFunctions.calcClickProbsAllArticles(p, startDate, endDate, 
-    			"F:\\BanditProject\\Articles\\", true);
+    	
+    	
     }
 
 }

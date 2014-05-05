@@ -14,28 +14,26 @@ public class ClickProbCalc {
 	
 	
 	
-	public static double calcClickProb(String articlePath, HashMap<String,Double> FeatureVector) {
-		double score = calcFeatureVectorScore(articlePath, FeatureVector);
+	public static double calcClickProb(Article article, HashMap<String,Double> FeatureVector) {
+		double score = calcFeatureVectorScore(article, FeatureVector);
 		double click_chance = 1.0 - 1.0/(Math.exp(2*score));
 		return click_chance;
 	}
     
-    private static double calcFeatureVectorScore( String articlePath, HashMap<String,Double> FeatureVector ) {
+    private static double calcFeatureVectorScore( Article article, HashMap<String,Double> FeatureVector ) {
     	double score = 0;
     	
     	// Read the article, and get the appropriate dictionary.
-    	Article a = new Article(articlePath);
-    	HashMap<String, Double> dictionary = dictionaries.getDictionary(a.getTopic());
+    	HashMap<String, Double> dictionary = dictionaries.getDictionary(article.getTopic());
     	if (dictionary == null) { 
-    		System.out.println("Unable to extract topic from article at ");
-    		System.out.println(articlePath);
+    		System.out.println("Unable to extract topic from article");
     		return -1;
     	}
     	
     	// Now read through the article and count up the number of times each word
     	// in the dictionary appears.
     	HashMap<String, Integer> wordCounts = new HashMap<String, Integer>();
-    	WordCounter.CountWords(a.getStory(), wordCounts);
+    	WordCounter.CountWords(article.getStory(), wordCounts);
     	for (String word : wordCounts.keySet()) {
     		if (dictionary.containsKey(word))
     			score += (wordCounts.get(word)*dictionary.get(word)*FeatureVector.get(word));

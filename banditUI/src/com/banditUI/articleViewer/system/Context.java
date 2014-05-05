@@ -28,14 +28,14 @@ public class Context {
     // General dispositions for each possible article topic.
     // These can take on values in the range [0,1)
     // All context disposition estimates start optimistic.
-    private static double Entertainment_Disposition = .999;
-    private static double Health_Disposition = .999;
-    private static double MoneyWatch_Disposition = .999;
-    private static double Politics_Disposition = .999;
-    private static double Sports_Disposition = .999;
-    private static double Tech_Disposition = .999;
-    private static double US_Disposition = .999;
-    private static double World_Disposition = .999;
+    private static double Entertainment_Disposition = Math.random();
+    private static double Health_Disposition = Math.random();
+    private static double MoneyWatch_Disposition = Math.random();
+    private static double Politics_Disposition = Math.random();
+    private static double Sports_Disposition = Math.random();
+    private static double Tech_Disposition = Math.random();
+    private static double US_Disposition = Math.random();
+    private static double World_Disposition = Math.random();
 
     //
     // Numbers of times each kind of article has been displayed.
@@ -100,7 +100,7 @@ public class Context {
         	HashMap<String, Double> dict = dictionaries.getDictionary(Topics[i]);
         	HashMap<String, Double> features = FeatureVectors.get(i);
         	for (String key : dict.keySet()) {
-        		features.put(key, .999);
+        		features.put(key, Math.random());
         	}
         }
     }

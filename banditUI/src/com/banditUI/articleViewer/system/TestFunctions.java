@@ -10,7 +10,7 @@ public class TestFunctions {
 	// scores using the CalcFeatureVectorScore function of the ClickProbabilityCalculator
 	// class. This will be used to determine the general range of scores that this function
 	// returns. 
-	
+	/*
 	public static double[] calcClickProbsAllArticles(Person p, Calendar startDate, 
 			Calendar endDate, String baseDir, boolean printAll) {
 		// stats indices are
@@ -67,6 +67,6 @@ public class TestFunctions {
 		System.out.println("ZERO : " + zeros);
 		
 		return stats;
-	}
+	}*/
 	
 }
