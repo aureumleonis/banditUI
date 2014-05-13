@@ -17,6 +17,10 @@ public class Exp4Simulator {
 	private ArticleSource articleSource;
 	private double learning_rate;
 	private double[] w;
+
+	// ** state **
+	private HashMap<Expert, HashMap<Article, Double>> currentAdvice;
+	private HashMap<Article, Integer> currentDisplay;
 	
 	
 	public Exp4Simulator(Person p, int num_exps, ArticleSource source, int num_spaces,
@@ -35,6 +39,10 @@ public class Exp4Simulator {
 		articleSource = source;
 		num_display_spaces = num_spaces;
 		learning_rate = learn_rate;
+	}
+
+	public HashMap<Article, Integer> getCurrentDisplay() {
+		return currentDisplay;
 	}
 	
 	public void runSimulationOneDay(Calendar date) {
@@ -121,14 +129,13 @@ public class Exp4Simulator {
 			articlesDisplayed.put(articleToDisplay, 
 					articlesDisplayed.get(articleToDisplay)+1);
 		}
-		// Now we have chosen all articles to display.
-		int test = 0;
-		// Step 4 : Receive rewards
-		
-		// Step 5 : Set xhat
-		
-		// Step 6 : update weights.
-		
+		// Save current state for decoupling
+		currentAdvice = totalledExpertAdvice;
+		currentDisplay = articlesDisplayed;
+	}
+
+	public void reward(HashMap<Article,Integer> display, HashMap<Article, Boolean> clicks) {
+		// TODO: update the bandit according to the clicks (rewards)!
 	}
 	
 	private void getAllExpertsAdvice(HashMap<Article, Integer> articles, 
