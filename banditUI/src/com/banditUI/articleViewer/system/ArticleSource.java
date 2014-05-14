@@ -8,6 +8,7 @@ import java.util.Scanner;
 public class ArticleSource {
 
 	private String rootDir;
+	private File root;
 	
 	public ArticleSource() {
 		@SuppressWarnings("resource")
@@ -28,9 +29,13 @@ public class ArticleSource {
 	    	}
     	}
 	}
+
+	public ArticleSource(String dir) {
+		rootDir = dir;
+	}
 	
 	public Article[] getArticlesForDate(Calendar date) {
-		String dirStr = rootDir + (date.get(Calendar.MONTH)+1) + '-' + date.get(Calendar.DATE)
+		String dirStr = rootDir + "Articles/" + (date.get(Calendar.MONTH)+1) + '-' + date.get(Calendar.DATE)
 				+ '-' + date.get(Calendar.YEAR);
 		File dir = new File(dirStr);
 		File[] filesInDir = dir.listFiles();

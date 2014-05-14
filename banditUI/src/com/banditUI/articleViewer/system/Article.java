@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.HashMap;
 
 public class Article {
 
@@ -11,7 +12,7 @@ public class Article {
 	private String url;
 	private String topic;
 	private String story;
-	
+	private HashMap<String, Double> featureVector;
 	
 	
 	public Article() {};
@@ -19,6 +20,8 @@ public class Article {
 	public Article(String file) {
 		try {
 			readArticle(file);
+			String fvLoc = file.replace("/Articles/", "/FeatureVectors/");
+			readFeatureVector(fvLoc);
 		}
 		catch( IOException e ) {
 			System.out.println("Unable to find file : " + file);
@@ -34,6 +37,22 @@ public class Article {
 	{
 		date = d;
 		url = u;
+	}
+
+	private void readFeatureVector(String infile) throws IOException {
+		BufferedReader in = new BufferedReader(new FileReader(infile));
+		String inputLine = in.readLine();
+		String[] splitLine;
+		while (inputLine != null) {
+			splitLine = inputLine.split(" ");
+			featureVector.put(splitLine[0], Double.parseDouble(splitLine[1]));
+			inputLine = in.readLine();
+		}
+		in.close();
+	}
+
+	public HashMap<String, Double> getFeatureVector() {
+		return featureVector;
 	}
 	
 	public Calendar getDate() {
