@@ -168,7 +168,7 @@ public class Person {
 		}
     }
     
-    public HashMap<String, Double> GetFeatureVector(int topic) {
+    public HashMap<String, Double> getFeatureVector(int topic) {
     	switch (topic) {
     	case ENTERTAINMENT:
     		return Entertainment_Feature_Vector;
@@ -192,7 +192,7 @@ public class Person {
     	}
     }
     
-    public HashMap<String, Double> GetFeatureVector(String topic) {
+    public HashMap<String, Double> getFeatureVector(String topic) {
     	switch (topic.toUpperCase()) {
     	case "ENTERTAINMENT":
     		return Entertainment_Feature_Vector;
@@ -213,6 +213,30 @@ public class Person {
     	default:
     		System.out.println("Invalid request for feature vector.");
     		return null;	
+    	}
+    }
+    
+    public double getDisposition(String topic) {
+    	switch (topic.toUpperCase()) {
+    	case "ENTERTAINMENT":
+    		return Entertainment_Disposition;
+    	case "HEALTH":
+    		return Health_Disposition;
+    	case "MONEYWATCH":
+    		return MoneyWatch_Disposition;
+    	case "POLITICS":
+    		return Politics_Disposition;
+    	case "SPORTS":
+    		return Sports_Disposition;
+    	case "TECH":
+    		return Tech_Disposition;
+    	case "US":
+    		return US_Disposition;
+    	case "WORLD":
+    		return World_Disposition;
+    	default:
+    		System.out.println("Invalid request for disposition.");
+    		return 0;	
     	}
     }
     

@@ -12,7 +12,7 @@ public class Article {
 	private String url;
 	private String topic;
 	private String story;
-	private HashMap<String, Double> featureVector;
+	private HashMap<String, Integer> featureVector;
 	
 	
 	public Article() {};
@@ -45,13 +45,13 @@ public class Article {
 		String[] splitLine;
 		while (inputLine != null) {
 			splitLine = inputLine.split(" ");
-			featureVector.put(splitLine[0], Double.parseDouble(splitLine[1]));
+			featureVector.put(splitLine[0], Integer.parseInt(splitLine[1]));
 			inputLine = in.readLine();
 		}
 		in.close();
 	}
 
-	public HashMap<String, Double> getFeatureVector() {
+	public HashMap<String, Integer> getFeatureVector() {
 		return featureVector;
 	}
 	

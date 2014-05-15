@@ -23,10 +23,10 @@ public class Expert {
 		HashMap<Article, Double> articleVals = new HashMap<Article, Double>();
 		for (Article a : articles.keySet()){
 			topic = a.getTopic();
-			click_prob = ClickProbCalc.calcClickProb(a);
+			click_prob = ClickProbCalc.calcClickProb(a, context);
 			// Apply the emphasis value function the necessary number of times.
 			num_spaces_taken = articles.get(a);
-			click_prob = ApplyEmphasisValueFunction(click_prob, num_spaces_taken);
+			click_prob = ApplyEmphasisValueFunction(click_prob, num_spaces_taken-1);
 			total += click_prob;
 			
 			articleVals.put(a, click_prob);

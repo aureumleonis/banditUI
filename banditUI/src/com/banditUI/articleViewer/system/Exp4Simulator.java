@@ -5,7 +5,6 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.concurrent.locks.ReentrantLock;
 
-
 import edu.stanford.nlp.util.ArrayUtils;
 
 public class Exp4Simulator {
@@ -136,6 +135,18 @@ public class Exp4Simulator {
 
 	public void reward(HashMap<Article,Integer> display, HashMap<Article, Boolean> clicks) {
 		// TODO: update the bandit according to the clicks (rewards)!
+		for (Article a : display.keySet()) {
+			if (display.get(a) == 0) 
+				continue;
+			
+			// Calculate click_prob without emphasis.
+			double click_prob = ClickProbCalc.calcClickProb(a, person);
+			// For each box added onto the first for display, apply
+			// the Person's emphasis value function.
+			for (int i = 1; i < display.get(a); i++)
+				click_prob = person.applyEmphasisValueFunction(click_prob);
+				
+		}
 	}
 	
 	private void getAllExpertsAdvice(HashMap<Article, Integer> articles, 
