@@ -61,14 +61,14 @@ public class Main {
     	Calendar dateChris = Calendar.getInstance();
     	dateChris.set(2010, Calendar.MAY, 7);
     	Thread[] t = new Thread[4];
-    	t[0] = new Thread(new RunnableSimulator("Billy", true, 'e', 13, 25, 75, .9, 10, s, dateBilly));
-    	t[1] = new Thread(new RunnableSimulator("Joe", true, 'e', 13, 25, 75, .9, 15, s, dateJoe));
-    	t[2] = new Thread(new RunnableSimulator("Dan", true, 'e', 13, 25, 75, .9, 35, s, dateDan));
-    	t[3] = new Thread(new RunnableSimulator("Chris", false, 'e', 13, 25, 75, .9, 35, s, dateChris));
+    	//t[0] = new Thread(new RunnableSimulator("Billy", true, 'e', 13, 25, 75, .9, 10, s, dateBilly));
+    	//t[1] = new Thread(new RunnableSimulator("Joe", true, 'e', 13, 25, 75, .9, 15, s, dateJoe));
+    	t[0] = new Thread(new RunnableSimulator("Dan", true, 'e', 13, 25, 75, .9, 1000, s, dateDan));
+    	t[1] = new Thread(new RunnableSimulator("Chris", false, 'e', 13, 25, 75, .9, 250, s, dateChris));
     	
-    	for (int i = 0; i < 4; i++)
+    	for (int i = 0; i < 2; i++)
     		t[i].start();
-    	for (int i = 0; i < 4; i++) {
+    	for (int i = 0; i < 2; i++) {
     		try { t[i].join(); }
     		catch(InterruptedException e) {System.out.println("Error, interrupted");}
     	}

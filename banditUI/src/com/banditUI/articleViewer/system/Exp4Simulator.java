@@ -186,6 +186,11 @@ public class Exp4Simulator {
 	private void getAllExpertsAdvice(HashMap<Article, Integer> articles, 
 			HashMap<Expert, HashMap<Article, Double>> expertAdvice) {
 		
+		for (Expert e : experts) {
+			expertAdvice.put(e, e.advise(articles));
+		}
+		
+		/*
 		ArrayList<Thread> threads = new ArrayList<Thread>();
 		ReentrantLock l = new ReentrantLock();
 		for (int i = 0; i < num_experts; i++) {
@@ -199,7 +204,7 @@ public class Exp4Simulator {
 				threads.get(i).join();
 			} catch (InterruptedException e) {}
 		}
-
+		*/
 	}
 		
 	
