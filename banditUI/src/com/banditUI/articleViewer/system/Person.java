@@ -6,6 +6,10 @@ import java.util.Scanner;
 
 
 public class Person {
+	
+	// Emphasis function
+	private double alpha;
+	private double beta;
     
 	public static final int ENTERTAINMENT = 0;
 	public static final int HEALTH = 1;
@@ -112,6 +116,8 @@ public class Person {
         Tech_Disposition = Math.random();
         US_Disposition = Math.random();
         World_Disposition = Math.random();
+        beta = Math.random() * 0.8; // Max beta value of 0.8.
+        alpha = Math.random() * beta; // Alpha no larger than beta.
     }
 
     private void ReadDispositions() {
@@ -149,6 +155,16 @@ public class Person {
 		while (World_Disposition  >= 1) {
 			System.out.print("World : ");
 			World_Disposition = s.nextDouble();
+		}
+		beta = 1;
+		while (beta >= 0.8) {
+			System.out.print("Emphasis beta : ");
+			beta = s.nextDouble();
+		}
+		alpha = 1;
+		while (alpha > beta) {
+			System.out.print("Emphasis alpha : ");
+			alpha = s.nextDouble();
 		}
     }
     
@@ -198,5 +214,12 @@ public class Person {
     		System.out.println("Invalid request for feature vector.");
     		return null;	
     	}
+    }
+    
+    // Takes original chance of getting a click, applies the emphasis
+    // value function and returns the new chance of getting a click.
+    public double applyEmphasisValueFunction(double score) {
+    	double new_score = score + Math.min(alpha*score, beta*(1-score));
+    	return new_score;
     }
 }
