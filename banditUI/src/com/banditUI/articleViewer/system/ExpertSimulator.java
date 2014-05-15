@@ -13,18 +13,28 @@ public class ExpertSimulator extends Simulator {
 	
 	@Override
 	public HashMap<Article, Boolean> simulateClicks() {
-		HashMap<Article, Boolean> clicks = new HashMap<Article, Boolean>();
-		for (Entry<Article, Integer> disp_row: currentDisplay) {
-			double score = ClickProbCalc.calcClickProb(disp_row.getKey(), sim);
-			for (int i = disp_row.getValue(); i > 0; i--) {
-				score = sim.applyEmphasisValueFunction(score);
+		HashMap <Article, Boolean> clicks = new HashMap<Article, Boolean>();
+		HashMap<Article, Integer> display = bandit.getCurrentDisplay();
+		for (Article a : display.keySet()) {
+			if (display.get(a) == 0) {
+				clicks.put(a, false);
+				continue;
 			}
-			if (Math.random() < score) {
-				clicks.put(disp_row.getKey(), true);
+				
+			// Calculate click_prob without emphasis.
+			double click_prob = ClickProbCalc.calcClickProb(a, sim);
+			// For each box added onto the first for display, apply
+			// the Person's emphasis value function.
+			for (int i = 1; i < display.get(a); i++)
+				click_prob = sim.applyEmphasisValueFunction(click_prob);
+			
+			double r = Math.random();
+			if (r < click_prob) {
+				clicks.put(a,true);
 			}
 			else {
-				clicks.put(disp_row.getKey(), false);
-			}
+				clicks.put(a, false);
+			}		
 		}
 		return clicks;
 	}

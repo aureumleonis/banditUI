@@ -20,7 +20,7 @@ public abstract class Simulator {
 		// Create a random user
 		sim = new Person(true);
 		// init the bandit with a random guess for sim
-		bandit = new Exp4Simulator(new Person(true), exps, source, 8, rate);
+		bandit = new Exp4Simulator(sim, exps, source, 8, rate);
 		day = start;
 	}
 
@@ -35,8 +35,12 @@ public abstract class Simulator {
 		});
 	}
 
-	public void runOnce() {
-		bandit.runSimulationOneDay(day);
+	public int runOneDay() {
+		int clicksToday = 0;
+		int result = bandit.runSimulationOneDay(day);
+		if (result < 0 ) {
+			return -1;
+		}
 		HashMap<Article, Integer> display = bandit.getCurrentDisplay();
 		setDisplay(display);
 		HashMap<Article, Boolean> clicked = simulateClicks();
@@ -44,9 +48,14 @@ public abstract class Simulator {
 		trial++;
 		seen += display.size();
 		for (boolean click: clicked.values()) {
-			if (click) clicks++;
+			if (click){ 
+				clicks++;
+				clicksToday++;
+			}
 		}
-		bandit.reward(display, clicked);
+		bandit.UpdateExpertTrust(clicked);
+		day.add(Calendar.DATE, 1);
+		return clicksToday;
 	}
 
 	public double getCTR() {

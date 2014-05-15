@@ -20,6 +20,7 @@ public class Exp4Simulator {
 	// ** state **
 	private HashMap<Expert, HashMap<Article, Double>> currentAdvice;
 	private HashMap<Article, Integer> currentDisplay;
+	private HashMap<Article, Double> currentArticleProbs;
 	
 	
 	public Exp4Simulator(Person p, int num_exps, ArticleSource source, int num_spaces,
@@ -44,13 +45,15 @@ public class Exp4Simulator {
 		return currentDisplay;
 	}
 	
-	public void runSimulationOneDay(Calendar date) {
+	public int runSimulationOneDay(Calendar date) {
 		int index = 0;
 		double Wt, sum, r;
 		Article articleToDisplay;
 		
 		//articles available for the day.
 		Article[] articles = articleSource.getArticlesForDate(date);
+		if (articles == null)
+			return -1;
 		int num_articles = articles.length;
 		double[] probabilities = new double[num_articles];
 		
@@ -143,23 +146,25 @@ public class Exp4Simulator {
 		}
 		
 		// Save current state for decoupling
-		currentAdvice = totalledExpertAdvice;
+		currentAdvice = expertAdvice;
 		currentDisplay = articlesDisplayed;
-		
-		// Step 4 : Receive reward.
-		HashMap <Article, Boolean> articlesClicked = new HashMap<Article, Boolean>();
-		reward(articlesDisplayed, articlesClicked);
+		currentArticleProbs = articleProbs;
+		return 1;
+	}
+	
+	public void UpdateExpertTrust(HashMap<Article, Boolean> clicks) {
 		
 		// Step 5 : calculate xhat for updating expert weights.
 		// xhat is simply one if a click was received, 0 if the article wasn't
 		// displayed or wasn't displayed.
+		int num_articles = clicks.keySet().size();
 		HashMap<Article, Double>  xhat = new HashMap<Article, Double>();
-		for (Article a : articlesClicked.keySet()) {
-			if (articlesClicked.get(a)) {
-				xhat.put(a, articlesDisplayed.get(a)/articleProbs.get(a));
+		for (Article a : clicks.keySet()) {
+			if (clicks.get(a)) {
+				xhat.put(a, currentDisplay.get(a)/currentArticleProbs.get(a));
 			}
 			else {
-				xhat.put(a, -1 * (articlesDisplayed.get(a)/articleProbs.get(a)));
+				xhat.put(a, -1 * (currentDisplay.get(a)/currentArticleProbs.get(a)));
 			}
 		}
 		
@@ -170,37 +175,11 @@ public class Exp4Simulator {
 			Expert e = experts[i];
 			yhat = 0;
 			for (Article a : xhat.keySet()){
-				yhat += expertAdvice.get(e).get(a);
+				yhat += currentAdvice.get(e).get(a);
 			}
 			w[i] = w[i]*Math.exp((learning_rate*yhat)/num_articles);
 		}
 		
-		
-	}
-
-	public void reward(HashMap<Article,Integer> display, HashMap<Article, Boolean> clicks) {
-		// TODO: update the bandit according to the clicks (rewards)!
-		for (Article a : display.keySet()) {
-			if (display.get(a) == 0) {
-				clicks.put(a, false);
-				continue;
-			}
-				
-			// Calculate click_prob without emphasis.
-			double click_prob = ClickProbCalc.calcClickProb(a, person);
-			// For each box added onto the first for display, apply
-			// the Person's emphasis value function.
-			for (int i = 1; i < display.get(a); i++)
-				click_prob = person.applyEmphasisValueFunction(click_prob);
-			
-			double r = Math.random();
-			if (r < click_prob) {
-				clicks.put(a,true);
-			}
-			else {
-				clicks.put(a, false);
-			}		
-		}
 	}
 	
 	private void getAllExpertsAdvice(HashMap<Article, Integer> articles, 

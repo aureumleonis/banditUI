@@ -22,11 +22,27 @@ public class Main {
     	
     	Dictionaries d = Dictionaries.getInstance();
     	ArticleSource s = new ArticleSource("F:/BanditProject/");
-    	Person billy = new Person(true);
-    	Calendar date = Calendar.getInstance();
-    	date.set(2013, 6, 1);
-    	Exp4Simulator sim = new Exp4Simulator(billy, 100, s, 8, .5);
-    	sim.runSimulationOneDay(date);
+    	Calendar dateBilly = Calendar.getInstance();
+    	dateBilly.set(2010, Calendar.MAY, 7);
+    	Calendar dateJoe = Calendar.getInstance();
+    	dateJoe.set(2010, Calendar.MAY, 7);
+    	Calendar dateDan = Calendar.getInstance();
+    	dateDan.set(2010, Calendar.MAY, 7);
+    	Calendar dateChris = Calendar.getInstance();
+    	dateChris.set(2010, Calendar.MAY, 7);
+    	Thread[] t = new Thread[4];
+    	t[0] = new Thread(new RunnableSimulator("Billy", 'e', 15, 25, 75, .9, 10, s, dateBilly));
+    	t[1] = new Thread(new RunnableSimulator("Joe", 'e', 15, 25, 75, .9, 15, s, dateJoe));
+    	t[2] = new Thread(new RunnableSimulator("Dan", 'e', 15, 25, 75, .9, 25, s, dateDan));
+    	t[3] = new Thread(new RunnableSimulator("Chris", 'e', 15, 25, 75, .9, 35, s, dateChris));
+    	
+    	for (int i = 0; i < 4; i++)
+    		t[i].start();
+    	for (int i = 0; i < 4; i++) {
+    		try { t[i].join(); }
+    		catch(InterruptedException e) {System.out.println("Error, interrupted");}
+    	}
+    	
     	
     	/*
 		System.out.println("Dummy results");
