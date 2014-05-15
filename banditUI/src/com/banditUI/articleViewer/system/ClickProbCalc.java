@@ -13,7 +13,6 @@ public class ClickProbCalc {
 	private static Dictionaries dictionaries = Dictionaries.getInstance();
 	
 	
-	
 	public static double calcClickProb(Article article, Context context) {
 		double score = calcFeatureVectorScore(article, context.getFeatureVector(article.getTopic()));
 		score = score * context.getDisposition(article.getTopic());
@@ -42,8 +41,9 @@ public class ClickProbCalc {
     	// in the dictionary appears.
     	HashMap<String, Integer> wordCounts = article.getFeatureVector();
     	for (String word : wordCounts.keySet()) {
-    		if (dictionary.containsKey(word))
-    			score += (wordCounts.get(word)*dictionary.get(word)*FeatureVector.get(word));
+    		int val = wordCounts.get(word);
+    		if (dictionary.containsKey(word) && (val > 0))
+    			score += (/*wordCounts.get(word)*/dictionary.get(word)*FeatureVector.get(word));
     	}
     	
     	return score;
