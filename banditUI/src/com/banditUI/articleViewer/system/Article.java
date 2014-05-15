@@ -20,7 +20,7 @@ public class Article {
 	public Article(String file) {
 		try {
 			readArticle(file);
-			String fvLoc = file.replace("/Articles/", "/FeatureVectors/");
+			String fvLoc = file.replace("\\Articles\\", "\\FeatureVectors\\");
 			readFeatureVector(fvLoc);
 		}
 		catch( IOException e ) {
@@ -40,6 +40,7 @@ public class Article {
 	}
 
 	private void readFeatureVector(String infile) throws IOException {
+		featureVector = new HashMap<String, Integer>();
 		BufferedReader in = new BufferedReader(new FileReader(infile));
 		String inputLine = in.readLine();
 		String[] splitLine;

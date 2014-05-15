@@ -55,7 +55,8 @@ public class Exp4Simulator {
 		double[] probabilities = new double[num_articles];
 		
 		HashMap<Article, Double> totalledAdvice;
-		
+		HashMap<Article, Double> articleProbs = null;
+		HashMap<Expert, HashMap<Article, Double>> expertAdvice = null;
 		// HashMap mapping articles to how many times they've been displayed.
 		// Initially, all articles have of course been displayed 0 times.
 		HashMap<Article, Integer> articlesDisplayed = new HashMap<Article, Integer>();
@@ -75,6 +76,9 @@ public class Exp4Simulator {
 			totalledExpertAdvice.put(experts[i], totalledAdvice);
 		}
 		
+		// ---- 
+		// THIS FOR LOOP SETS UP THE ARTICLES WE DISPLAY
+		// ---- 
 		
 		// For each space we have available...
 		for (int space = 0; space < num_display_spaces; space++) {
@@ -82,9 +86,9 @@ public class Exp4Simulator {
 			// "The Nonstochastic Multiarmed Bandit Problem"
 			
 			// Step 1 : get advice vectors from all experts.
-			HashMap<Expert, HashMap<Article, Double>> expertAdvice = new HashMap<Expert, HashMap<Article, Double>>();
+			expertAdvice = new HashMap<Expert, HashMap<Article, Double>>();
 			getAllExpertsAdvice(articlesDisplayed, expertAdvice);
-			for (int i = 0; i < num_experts; i++) {
+			/*for (int i = 0; i < num_experts; i++) {
 				for (Expert e : totalledExpertAdvice.keySet()) {
 					totalledAdvice = totalledExpertAdvice.get(e);
 					for (Article a : totalledAdvice.keySet()) {
@@ -92,7 +96,7 @@ public class Exp4Simulator {
 							totalledAdvice.get(a) + expertAdvice.get(e).get(a));
 					}
 				}
-			}
+			}*/
 			
 			// Step 2 : Get probability distribution over articles.
 			Wt = 0;
@@ -112,8 +116,17 @@ public class Exp4Simulator {
 			double total = 0;
 			for (int i = 0; i < probabilities.length; i++)
 				total += probabilities[i];
-			for (int i = 0; i < probabilities.length; i++)
+			
+			// Create hashmap of articles to probabilities for easy use later.
+			// This loop fills that hashmap and finishes normalizing probabilities.
+			articleProbs = new HashMap<Article, Double>();
+			for (int i = 0; i < probabilities.length; i++) {
 				probabilities[i] /= total;
+				articleProbs.put(articles[i], probabilities[i]);
+			}
+			
+
+			
 			for (int i = 1; i < num_articles; i++)
 				probabilities[i] = probabilities[i] + probabilities[i-1];
 			probabilities[num_articles - 1] = 1;
@@ -128,24 +141,65 @@ public class Exp4Simulator {
 			articlesDisplayed.put(articleToDisplay, 
 					articlesDisplayed.get(articleToDisplay)+1);
 		}
+		
 		// Save current state for decoupling
 		currentAdvice = totalledExpertAdvice;
 		currentDisplay = articlesDisplayed;
+		
+		// Step 4 : Receive reward.
+		HashMap <Article, Boolean> articlesClicked = new HashMap<Article, Boolean>();
+		reward(articlesDisplayed, articlesClicked);
+		
+		// Step 5 : calculate xhat for updating expert weights.
+		// xhat is simply one if a click was received, 0 if the article wasn't
+		// displayed or wasn't displayed.
+		HashMap<Article, Double>  xhat = new HashMap<Article, Double>();
+		for (Article a : articlesClicked.keySet()) {
+			if (articlesClicked.get(a)) {
+				xhat.put(a, articlesDisplayed.get(a)/articleProbs.get(a));
+			}
+			else {
+				xhat.put(a, -1 * (articlesDisplayed.get(a)/articleProbs.get(a)));
+			}
+		}
+		
+		// Step 6 : update the weights across the experts.
+		//HashMap<Expert, Double> yhat = new HashMap<Expert, Double>();
+		double yhat;
+		for (int i = 0; i < num_experts; i++) {
+			Expert e = experts[i];
+			yhat = 0;
+			for (Article a : xhat.keySet()){
+				yhat += expertAdvice.get(e).get(a);
+			}
+			w[i] = w[i]*Math.exp((learning_rate*yhat)/num_articles);
+		}
+		
+		
 	}
 
 	public void reward(HashMap<Article,Integer> display, HashMap<Article, Boolean> clicks) {
 		// TODO: update the bandit according to the clicks (rewards)!
 		for (Article a : display.keySet()) {
-			if (display.get(a) == 0) 
+			if (display.get(a) == 0) {
+				clicks.put(a, false);
 				continue;
-			
+			}
+				
 			// Calculate click_prob without emphasis.
 			double click_prob = ClickProbCalc.calcClickProb(a, person);
 			// For each box added onto the first for display, apply
 			// the Person's emphasis value function.
 			for (int i = 1; i < display.get(a); i++)
 				click_prob = person.applyEmphasisValueFunction(click_prob);
-				
+			
+			double r = Math.random();
+			if (r < click_prob) {
+				clicks.put(a,true);
+			}
+			else {
+				clicks.put(a, false);
+			}		
 		}
 	}
 	

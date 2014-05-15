@@ -21,11 +21,11 @@ public class Main {
     	*/
     	
     	Dictionaries d = Dictionaries.getInstance();
-    	ArticleSource s = new ArticleSource();
+    	ArticleSource s = new ArticleSource("F:/BanditProject/");
     	Person billy = new Person(true);
     	Calendar date = Calendar.getInstance();
     	date.set(2013, 6, 1);
-    	Exp4Simulator sim = new Exp4Simulator(billy, 15, s, 8, .5);
+    	Exp4Simulator sim = new Exp4Simulator(billy, 100, s, 8, .5);
     	sim.runSimulationOneDay(date);
     	
     	/*
