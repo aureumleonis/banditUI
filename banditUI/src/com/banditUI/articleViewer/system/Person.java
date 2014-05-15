@@ -32,14 +32,14 @@ public class Person {
     //
     // General dispositions for each possible article topic.
     // These can take on values in the range [0,1]
-    private static double Entertainment_Disposition = 1;
-    private static double Health_Disposition = 1;
-    private static double MoneyWatch_Disposition = 1;
-    private static double Politics_Disposition = 1;
-    private static double Sports_Disposition = 1;
-    private static double Tech_Disposition = 1;
-    private static double US_Disposition = 1;
-    private static double World_Disposition = 1;
+    private double Entertainment_Disposition = 1;
+    private double Health_Disposition = 1;
+    private double MoneyWatch_Disposition = 1;
+    private double Politics_Disposition = 1;
+    private double Sports_Disposition = 1;
+    private double Tech_Disposition = 1;
+    private double US_Disposition = 1;
+    private double World_Disposition = 1;
 
     //
     // Feature vectors for each article topic.
@@ -69,6 +69,20 @@ public class Person {
     	// Randomly fill in feature vectors.
         FillFeatureVectors();
     }   
+    
+    public Person(double[] disps, double a, double b) {
+        Entertainment_Disposition = disps[0];
+        Health_Disposition = disps[1];
+        MoneyWatch_Disposition = disps[2];
+        Politics_Disposition = disps[3];
+        Sports_Disposition = disps[4];
+        Tech_Disposition = disps[5];
+        US_Disposition = disps[6];
+        World_Disposition = disps[7];
+        alpha = a;
+        beta = b;
+        FillFeatureVectors();
+    }
     
     private void FillFeatureVectors() {
       	Entertainment_Feature_Vector = new HashMap<String, Double>();
