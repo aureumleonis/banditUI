@@ -71,6 +71,12 @@ public class Article {
 		return story;
 	}
 	
+	public String getTitle() {
+		String title = url.replace("http://www.cbsnews.com/news/", "");
+		title = title.substring(0, title.length() - 1);
+		return title;
+	}
+	
 	private void readArticle(String infile) throws IOException
 	{
 		int day, month, year;

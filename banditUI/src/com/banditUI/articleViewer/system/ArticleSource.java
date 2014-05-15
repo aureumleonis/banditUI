@@ -39,6 +39,9 @@ public class ArticleSource {
 				+ '-' + date.get(Calendar.YEAR);
 		File dir = new File(dirStr);
 		File[] filesInDir = dir.listFiles();
+		if (filesInDir == null) {
+			return null;
+		}
 		int num_articles = filesInDir.length;
 		Article[] articles = new Article[num_articles];
 		int index = 0;

@@ -1,6 +1,9 @@
 package com.banditUI.articleViewer.system;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.StringTokenizer;
@@ -14,6 +17,49 @@ import com.aliasi.tokenizer.TokenizerFactory;
 
 
 public class WordCounter {
+	
+	public static void CalculateAllArticleFVs(String artBaseDir, String fvBaseDir, Calendar start, Calendar end) throws IOException {
+		ArticleSource source = new ArticleSource();
+		Dictionaries d = Dictionaries.getInstance();
+		HashMap<String, Integer> wordcounts = new HashMap<String, Integer>();
+		HashMap<String, Double> dict;
+		int count;
+		String dir, dateAsString, fvLoc;
+		File f;
+		while (start.before(end)) {
+			dateAsString = "" + (start.get(Calendar.MONTH) + 1) + '-' + start.get(Calendar.DATE) +
+					'-' + start.get(Calendar.YEAR);
+			System.out.println("Date : " + dateAsString);
+			dir = fvBaseDir + dateAsString + '/';
+			f = new File(dir);
+			if (!f.exists()) {
+				f.mkdir();
+			}
+			Article[] articles = source.getArticlesForDate(start);
+			if (articles == null) {
+				start.add(Calendar.DATE, 1);
+				continue;
+			}
+			for (Article a : articles) {
+				wordcounts.clear();
+				WordCounter.CountWords(a.getStory(), wordcounts);
+				fvLoc = fvBaseDir + dateAsString + '/' + a.getTitle() + ".txt";
+				BufferedWriter out = new BufferedWriter(new FileWriter(fvLoc));
+				dict = d.getDictionary(a.getTopic());
+				for (String word : wordcounts.keySet()) {
+					
+					if (dict.keySet().contains(word)) {
+						count = wordcounts.get(word);
+						out.write(word + ' ' + count + System.lineSeparator());
+					}
+					
+				}
+				out.close();
+				
+			}
+			start.add(Calendar.DATE, 1);
+		}
+	}
 
 	public void CountWordsAllArticles(String topic, HashMap<String, Integer> wordCounts,
 			Calendar startDate, Calendar endDate, String baseDir)
