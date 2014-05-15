@@ -28,14 +28,14 @@ public class Context {
     // General dispositions for each possible article topic.
     // These can take on values in the range [0,1)
     // All context disposition estimates start optimistic.
-    private static double Entertainment_Disposition = Math.random();
-    private static double Health_Disposition = Math.random();
-    private static double MoneyWatch_Disposition = Math.random();
-    private static double Politics_Disposition = Math.random();
-    private static double Sports_Disposition = Math.random();
-    private static double Tech_Disposition = Math.random();
-    private static double US_Disposition = Math.random();
-    private static double World_Disposition = Math.random();
+    private double Entertainment_Disposition = Math.random();
+    private double Health_Disposition = Math.random();
+    private double MoneyWatch_Disposition = Math.random();
+    private double Politics_Disposition = Math.random();
+    private double Sports_Disposition = Math.random();
+    private double Tech_Disposition = Math.random();
+    private double US_Disposition = Math.random();
+    private double World_Disposition = Math.random();
 
     //
     // Numbers of times each kind of article has been displayed.

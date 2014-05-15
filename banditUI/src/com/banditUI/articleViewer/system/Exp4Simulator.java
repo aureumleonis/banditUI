@@ -40,6 +40,18 @@ public class Exp4Simulator {
 		num_display_spaces = num_spaces;
 		learning_rate = learn_rate;
 	}
+	
+	public Exp4Simulator(Person p, Expert[] exps, ArticleSource source, int num_spaces,
+			double learn_rate) {
+		person = p;
+		num_experts = exps.length;
+		experts = exps;
+		w = new double[num_experts];
+		articleSource = source;
+		num_display_spaces = num_spaces;
+		learning_rate = learn_rate;
+	}
+
 
 	public HashMap<Article, Integer> getCurrentDisplay() {
 		return currentDisplay;
@@ -176,7 +188,7 @@ public class Exp4Simulator {
 			Expert e = experts[i];
 			yhat = 0;
 			for (Article a : xhat.keySet()){
-				yhat += currentAdvice.get(e).get(a);
+				yhat += currentAdvice.get(e).get(a)*xhat.get(a);
 			}
 			w[i] = w[i]*Math.exp((learning_rate*yhat)/num_articles);
 		}

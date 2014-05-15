@@ -7,8 +7,8 @@ import java.lang.Math;
 
 public class ExpertSimulator extends Simulator {
 	
-	public ExpertSimulator(boolean random, int exps, ArticleSource source, Calendar start, int trials, double rate) {
-		super(random, exps, source, start, trials, rate);
+	public ExpertSimulator(Person p, int exps, ArticleSource source, Calendar start, int trials, double rate) {
+		super(p, exps, source, start, trials, rate);
 	}
 	
 	@Override
