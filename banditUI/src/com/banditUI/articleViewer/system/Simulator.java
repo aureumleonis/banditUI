@@ -16,9 +16,9 @@ public abstract class Simulator {
 	protected int trial = 0, seen = 0, clicks = 0;
 	protected List<Entry<Article, Integer>> currentDisplay;
 
-	public Simulator(int exps, ArticleSource source, Calendar start, int trials, double rate) {
+	public Simulator(boolean random, int exps, ArticleSource source, Calendar start, int trials, double rate) {
 		// Create a random user
-		sim = new Person(true);
+		sim = new Person(random);
 		// init the bandit with a random guess for sim
 		bandit = new Exp4Simulator(sim, exps, source, 8, rate);
 		day = start;

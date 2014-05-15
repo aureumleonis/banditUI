@@ -149,6 +149,7 @@ public class Exp4Simulator {
 		currentAdvice = expertAdvice;
 		currentDisplay = articlesDisplayed;
 		currentArticleProbs = articleProbs;
+		//learning_rate *= .99;
 		return 1;
 	}
 	

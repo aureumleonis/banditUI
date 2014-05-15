@@ -31,10 +31,10 @@ public class Main {
     	Calendar dateChris = Calendar.getInstance();
     	dateChris.set(2010, Calendar.MAY, 7);
     	Thread[] t = new Thread[4];
-    	t[0] = new Thread(new RunnableSimulator("Billy", 'e', 15, 25, 75, .9, 10, s, dateBilly));
-    	t[1] = new Thread(new RunnableSimulator("Joe", 'e', 15, 25, 75, .9, 15, s, dateJoe));
-    	t[2] = new Thread(new RunnableSimulator("Dan", 'e', 15, 25, 75, .9, 25, s, dateDan));
-    	t[3] = new Thread(new RunnableSimulator("Chris", 'e', 15, 25, 75, .9, 35, s, dateChris));
+    	t[0] = new Thread(new RunnableSimulator("Billy", false, 'e', 13, 25, 75, .9, 10, s, dateBilly));
+    	t[1] = new Thread(new RunnableSimulator("Joe", false, 'e', 13, 25, 75, .9, 15, s, dateJoe));
+    	t[2] = new Thread(new RunnableSimulator("Dan", false, 'e', 13, 25, 75, .9, 25, s, dateDan));
+    	t[3] = new Thread(new RunnableSimulator("Chris", false, 'e', 13, 25, 75, .9, 35, s, dateChris));
     	
     	for (int i = 0; i < 4; i++)
     		t[i].start();

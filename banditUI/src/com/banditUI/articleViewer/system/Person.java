@@ -121,6 +121,14 @@ public class Person {
     }
 
     private void ReadDispositions() {
+        Entertainment_Disposition = 1;
+        Health_Disposition = 1;
+        MoneyWatch_Disposition = 1;
+        Politics_Disposition = 1;
+        Sports_Disposition = 1;
+        Tech_Disposition = 1;
+        US_Disposition = 1;
+        World_Disposition = 1;
     	Scanner s = new Scanner(System.in);
     	System.out.println("Enter prior dispositions in the range [0, 1) for :");
     	

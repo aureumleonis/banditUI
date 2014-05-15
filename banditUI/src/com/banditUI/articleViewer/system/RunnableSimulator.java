@@ -7,14 +7,14 @@ public class RunnableSimulator implements Runnable {
 	private int days_between_samples, days_per_sample, num_samples;
 	String p;
 	
-	public RunnableSimulator(String name, char type,  int num_sample, int daysPer,
-			int between_samples, double learning_rate, int num_experts,
+	public RunnableSimulator(String name, boolean random, char type,  int num_sample, 
+			int daysPer, int between_samples, double learning_rate, int num_experts,
 			ArticleSource source, Calendar startDate) {
 		if (type == 's') {
-			sim = new SaliencySimulator(num_experts,source, startDate, 0, learning_rate);
+			sim = new SaliencySimulator(random, num_experts,source, startDate, 0, learning_rate);
 		}
 		else {
-			sim = new ExpertSimulator(num_experts,source, startDate, 0, learning_rate);
+			sim = new ExpertSimulator(random, num_experts,source, startDate, 0, learning_rate);
 		}
 		
 		days_between_samples = between_samples;

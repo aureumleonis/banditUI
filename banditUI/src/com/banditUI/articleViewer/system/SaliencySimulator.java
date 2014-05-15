@@ -8,8 +8,8 @@ import java.lang.Math;
 public class SaliencySimulator extends Simulator {
 	private double mu, sigm;
 
-	public SaliencySimulator(int exps, ArticleSource source, Calendar start, int trials, double rate) {
-		super(exps, source, start, trials, rate);
+	public SaliencySimulator(boolean random, int exps, ArticleSource source, Calendar start, int trials, double rate) {
+		super(random, exps, source, start, trials, rate);
 	}
 
 	private double saliency(double x) {
