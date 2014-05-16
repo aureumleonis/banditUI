@@ -69,4 +69,14 @@ public abstract class Simulator {
 	public double getCTR() {
 		return clicks/(double)seen;
 	}
+	
+	public int getNumberDisplayed() {
+		int num = 0;
+		for (Entry<Article, Integer> e : currentDisplay) {
+			if (e.getValue() > 0) {
+				num++;
+			}
+		}
+		return num;
+	}
 }

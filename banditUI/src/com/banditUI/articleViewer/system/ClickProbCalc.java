@@ -16,14 +16,22 @@ public class ClickProbCalc {
 	public static double calcClickProb(Article article, Context context) {
 		double score = calcFeatureVectorScore(article, context.getFeatureVector(article.getTopic()));
 		score = score * context.getDisposition(article.getTopic());
-		double click_chance = 1.0 - 1.0/(Math.exp(2*score));
+		double click_chance = 1.0 - 1.0/(Math.exp(3*score));
 		return click_chance;
 	}
 	
 	public static double calcClickProb(Article article, Person p) {
 		double score = calcFeatureVectorScore(article, p.getFeatureVector(article.getTopic()));
 		score = score * p.getDisposition(article.getTopic());
-		double click_chance = 1.0 - 1.0/(Math.exp(2*score));
+		double click_chance = 1.0 - 1.0/(Math.exp(3*score));
+		return click_chance;
+	}
+	
+	// For testing various coefficients
+	public static double calcClickProb(Article article, Person p, double x) {
+		double score = calcFeatureVectorScore(article, p.getFeatureVector(article.getTopic()));
+		score = score * p.getDisposition(article.getTopic());
+		double click_chance = 1.0 - 1.0/(Math.exp(x*score));
 		return click_chance;
 	}
     

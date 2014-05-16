@@ -22,46 +22,30 @@ public class Main {
     	
     	Person billy = new Person(true);
     	Person joe = new Person(true);
-    	Person chris = new Person(chris_disps, .5, .5);
-    	Person dan = new Person(dan_disps, .5, .5);
-
+    	Person chris = new Person(true);
+    	Person dan = new Person(false);
+    	/*
+    	double[] e1Disps = {.1,.1,.1,.1,.9,.9,.1,.1};
+    	Expert e1 = new Expert(new Context(e1Disps));
     	
+    	Expert[] exps = new Expert[10];
+    	exps[0] = e1;
+    	for (int i = 1; i < 10; i++) 
+    		exps[i] = new Expert();
     	
-    	ExpertSimulator sim = new ExpertSimulator(dan,10, s, date, 0, 0.9);
+    	ExpertSimulator sim = new ExpertSimulator(dan,250, s, date, 0, 0.9);
 
     	for(int i = 1; i < 501; i++) {
     		int clicks = sim.runOneDay();
-    		System.out.println("Trial " + i + " : " + clicks);
+    		System.out.println("Trial " + i + " : " + clicks + " / " + sim.getNumberDisplayed());
     	}
+    	*/
     	
-    	/*
     	HashMap<Article, Double> b = new HashMap<Article, Double>();
     	HashMap<Article, Double> j = new HashMap<Article, Double>();
     	HashMap<Article, Double> c = new HashMap<Article, Double>();
     	HashMap<Article, Double> d = new HashMap<Article, Double>();
     	
-    	for (Article a : articles) {
-    		//b.put(a, ClickProbCalc.calcClickProb(a, billy));
-    		//j.put(a, ClickProbCalc.calcClickProb(a, joe));
-    		System.out.println(a.getTitle());
-    		System.out.println(a.getTopic());
-    		c.put(a, ClickProbCalc.calcClickProb(a, chris));
-    		d.put(a, ClickProbCalc.calcClickProb(a, dan));
-    		System.out.println();
-    	}
-    	
-    	for (Article a : articles) {
-    		//System.out.println("Billy\t" + a.getTitle() + "\t" + b.get(a));
-    		//System.out.println("Joe\t" + a.getTitle() + "\t" + j.get(a));
-    		System.out.println("Chris\t" + a.getTitle() + "\t" + c.get(a));
-    		System.out.println("Dan\t" + a.getTitle() + "\t" + d.get(a));
-    	}
-    	*/
-    	
-    	
-    	/*
-    	Dictionaries d = Dictionaries.getInstance();
-    	ArticleSource s = new ArticleSource("F:/BanditProject/");
     	Calendar dateBilly = Calendar.getInstance();
     	dateBilly.set(2010, Calendar.MAY, 7);
     	Calendar dateJoe = Calendar.getInstance();
@@ -71,18 +55,18 @@ public class Main {
     	Calendar dateChris = Calendar.getInstance();
     	dateChris.set(2010, Calendar.MAY, 7);
     	Thread[] t = new Thread[4];
-    	//t[0] = new Thread(new RunnableSimulator("Billy", true, 'e', 13, 25, 75, .9, 10, s, dateBilly));
-    	//t[1] = new Thread(new RunnableSimulator("Joe", true, 'e', 13, 25, 75, .9, 15, s, dateJoe));
-    	//t[0] = new Thread(new RunnableSimulator("Dan", true, 'e', 13, 25, 25, .9, 1000, s, dateDan));
-    	//t[1] = new Thread(new RunnableSimulator("Chris", false, 'e', 13, 25, 25, .9, 250, s, dateChris));
+    	t[0] = new Thread(new RunnableSimulator("Billy", billy, 'e', 50, 20, 0, .9, 20, s, dateBilly));
+    	t[1] = new Thread(new RunnableSimulator("Joe", joe, 'e', 50, 20, 0, .9, 50, s, dateJoe));
+    	t[2] = new Thread(new RunnableSimulator("Dan", chris, 'e', 50, 20, 0, .9, 150, s, dateDan));
+    	t[3] = new Thread(new RunnableSimulator("Chris", dan, 'e', 50, 20, 0, .9, 500, s, dateChris));
     	
-    	for (int i = 0; i < 2; i++)
+    	for (int i = 0; i < 4; i++)
     		t[i].start();
-    	for (int i = 0; i < 2; i++) {
+    	for (int i = 0; i < 4; i++) {
     		try { t[i].join(); }
     		catch(InterruptedException e) {System.out.println("Error, interrupted");}
     	}
-    	*/
+    	
     	
     	/*
 		System.out.println("Dummy results");
