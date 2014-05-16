@@ -22,6 +22,12 @@ public class Expert {
 		beta = Math.random() * 0.8;
 		alpha = Math.random() * beta;
 	}
+
+	public Expert(Context c, double a, double b) {
+		context  = c;
+		alpha = a;
+		beta = b;
+	}
 	
 	// Input articlesAvailable is a hashmap from articles to how many squares in the
 	// display they are currently taking up.
@@ -63,7 +69,6 @@ public class Expert {
 		// Finally, normalize the recommendations.
 		for (Article key : articleVals.keySet()){
 			articleVals.put(key, articleVals.get(key)/total);
-			//System.out.println(articleVals.get(key));
 		}
 
 		
