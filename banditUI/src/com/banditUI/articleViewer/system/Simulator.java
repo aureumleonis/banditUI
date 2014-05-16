@@ -16,9 +16,17 @@ public abstract class Simulator {
 	protected int trial = 0, seen = 0, clicks = 0;
 	protected List<Entry<Article, Integer>> currentDisplay;
 
-	public Simulator(boolean random, int exps, ArticleSource source, Calendar start, int trials, double rate) {
+	public Simulator(Person p, int exps, ArticleSource source, Calendar start, int trials, double rate) {
 		// Create a random user
-		sim = new Person(random);
+		sim = p;
+		// init the bandit with a random guess for sim
+		bandit = new Exp4Simulator(sim, exps, source, 8, rate);
+		day = start;
+	}
+	
+	public Simulator(Person p, Expert[] exps, ArticleSource source, Calendar start, int trials, double rate) {
+		// Create a random user
+		sim = p;
 		// init the bandit with a random guess for sim
 		bandit = new Exp4Simulator(sim, exps, source, 8, rate);
 		day = start;
@@ -54,11 +62,21 @@ public abstract class Simulator {
 			}
 		}
 		bandit.UpdateExpertTrust(clicked);
-		day.add(Calendar.DATE, 1);
+		//day.add(Calendar.DATE, 1);
 		return clicksToday;
 	}
 
 	public double getCTR() {
 		return clicks/(double)seen;
+	}
+	
+	public int getNumberDisplayed() {
+		int num = 0;
+		for (Entry<Article, Integer> e : currentDisplay) {
+			if (e.getValue() > 0) {
+				num++;
+			}
+		}
+		return num;
 	}
 }

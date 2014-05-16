@@ -40,6 +40,21 @@ public class Exp4Simulator {
 		num_display_spaces = num_spaces;
 		learning_rate = learn_rate;
 	}
+	
+	public Exp4Simulator(Person p, Expert[] exps, ArticleSource source, int num_spaces,
+			double learn_rate) {
+		person = p;
+		num_experts = exps.length;
+		experts = exps;
+		w = new double[num_experts];
+		for (int i = 0; i < num_experts; i++) {
+			w[i] = 1; 
+		}
+		articleSource = source;
+		num_display_spaces = num_spaces;
+		learning_rate = learn_rate;
+	}
+
 
 	public HashMap<Article, Integer> getCurrentDisplay() {
 		return currentDisplay;
@@ -161,7 +176,10 @@ public class Exp4Simulator {
 		int num_articles = clicks.keySet().size();
 		HashMap<Article, Double>  xhat = new HashMap<Article, Double>();
 		for (Article a : clicks.keySet()) {
-			if (clicks.get(a)) {
+			if(currentDisplay.get(a) == 0) {
+				xhat.put(a, 0.0);
+			}
+			else if (clicks.get(a)) {
 				xhat.put(a, currentDisplay.get(a)/currentArticleProbs.get(a));
 			}
 			else {
@@ -176,7 +194,7 @@ public class Exp4Simulator {
 			Expert e = experts[i];
 			yhat = 0;
 			for (Article a : xhat.keySet()){
-				yhat += currentAdvice.get(e).get(a);
+				yhat += currentAdvice.get(e).get(a)*xhat.get(a);
 			}
 			w[i] = w[i]*Math.exp((learning_rate*yhat)/num_articles);
 		}
@@ -186,6 +204,11 @@ public class Exp4Simulator {
 	private void getAllExpertsAdvice(HashMap<Article, Integer> articles, 
 			HashMap<Expert, HashMap<Article, Double>> expertAdvice) {
 		
+		for (Expert e : experts) {
+			expertAdvice.put(e, e.advise(articles));
+		}
+		
+		/*
 		ArrayList<Thread> threads = new ArrayList<Thread>();
 		ReentrantLock l = new ReentrantLock();
 		for (int i = 0; i < num_experts; i++) {
@@ -199,7 +222,7 @@ public class Exp4Simulator {
 				threads.get(i).join();
 			} catch (InterruptedException e) {}
 		}
-
+		*/
 	}
 		
 	

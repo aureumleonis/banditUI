@@ -28,14 +28,14 @@ public class Context {
     // General dispositions for each possible article topic.
     // These can take on values in the range [0,1)
     // All context disposition estimates start optimistic.
-    private static double Entertainment_Disposition = Math.random();
-    private static double Health_Disposition = Math.random();
-    private static double MoneyWatch_Disposition = Math.random();
-    private static double Politics_Disposition = Math.random();
-    private static double Sports_Disposition = Math.random();
-    private static double Tech_Disposition = Math.random();
-    private static double US_Disposition = Math.random();
-    private static double World_Disposition = Math.random();
+    private double Entertainment_Disposition = Math.random();
+    private double Health_Disposition = Math.random();
+    private double MoneyWatch_Disposition = Math.random();
+    private double Politics_Disposition = Math.random();
+    private double Sports_Disposition = Math.random();
+    private double Tech_Disposition = Math.random();
+    private double US_Disposition = Math.random();
+    private double World_Disposition = Math.random();
 
     //
     // Numbers of times each kind of article has been displayed.
@@ -68,7 +68,19 @@ public class Context {
     	//
     	// Fill feature vectors with optimistic estimates
         fillFeatureVectors();
-    }   
+    }
+    
+    public Context(double[] disps) {
+        Entertainment_Disposition = disps[0];
+        Health_Disposition = disps[1];
+        MoneyWatch_Disposition = disps[2];
+        Politics_Disposition = disps[3];
+        Sports_Disposition = disps[4];
+        Tech_Disposition = disps[5];
+        US_Disposition = disps[6];
+        World_Disposition = disps[7];
+        fillFeatureVectors();
+    }
     
     private void fillFeatureVectors() {
     	Entertainment_Feature_Vector = new HashMap<String, Double>();
