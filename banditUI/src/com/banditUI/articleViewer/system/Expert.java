@@ -50,7 +50,7 @@ public class Expert {
 			ind++;
 		}
 		Collections.sort(allVals, Collections.reverseOrder());
-		double lowestVal = allVals.get(7);
+		double lowestVal = allVals.get(Math.min(7, allVals.size()-1));
 		for (Article a : articleVals.keySet()) {
 			if (articleVals.get(a) < lowestVal) {
 				articleVals.put(a, 0.0);

@@ -47,10 +47,17 @@ public abstract class Simulator {
 		int clicksToday = 0;
 		int result = bandit.runSimulationOneDay(day);
 		if (result < 0 ) {
+			day.add(Calendar.DATE, 1);
 			return -1;
 		}
 		HashMap<Article, Integer> display = bandit.getCurrentDisplay();
 		setDisplay(display);
+		
+		for (Article a : display.keySet()) {
+			if (display.get(a) > 0)
+				System.out.println(a.getTitle());
+		}
+		
 		HashMap<Article, Boolean> clicked = simulateClicks();
 		// update CTR
 		trial++;
@@ -62,7 +69,7 @@ public abstract class Simulator {
 			}
 		}
 		bandit.UpdateExpertTrust(clicked);
-		//day.add(Calendar.DATE, 1);
+		day.add(Calendar.DATE, 1);
 		return clicksToday;
 	}
 

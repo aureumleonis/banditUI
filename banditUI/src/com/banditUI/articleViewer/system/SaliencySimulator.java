@@ -11,6 +11,10 @@ public class SaliencySimulator extends Simulator {
 	public SaliencySimulator(Person p, int exps, ArticleSource source, Calendar start, int trials, double rate) {
 		super(p, exps, source, start, trials, rate);
 	}
+	
+	public SaliencySimulator(Person p, Expert[] exps, ArticleSource source, Calendar start, int trials, double rate) {
+		super(p, exps, source, start, trials, rate);
+	}
 
 	private double saliency(double x) {
 		return (x-mu)/sigm;
