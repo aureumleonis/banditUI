@@ -11,28 +11,54 @@ public class Main {
 
     public static void main(String[] args) throws IOException {  
     	
-    	Calendar date = Calendar.getInstance();
-    	date.set(2013, Calendar.JANUARY, 3);
     	
-    	ArticleSource s = new ArticleSource(args[0]);
-    	Article[] articles = s.getArticlesForDate(date);
+    	// date -- Jan 201
+    	Calendar date1 = Calendar.getInstance();
+    	date1.set(2010, Calendar.JANUARY, 1);
+    	Calendar date2 = Calendar.getInstance();
+    	date2.set(2010, Calendar.JANUARY, 1);
+    	Calendar date3 = Calendar.getInstance();
+    	date3.set(2010, Calendar.JANUARY, 1);
+    	Calendar date4 = Calendar.getInstance();
+    	date4.set(2010, Calendar.JANUARY, 1);
+    	Calendar date5 = Calendar.getInstance();
+    	date5.set(2010, Calendar.JANUARY, 1);
+    	Calendar date6 = Calendar.getInstance();
+    	date6.set(2010, Calendar.JANUARY, 1);
+    	Calendar date7 = Calendar.getInstance();
+    	date7.set(2010, Calendar.JANUARY, 1);
+    	Calendar date8 = Calendar.getInstance();
+    	date8.set(2010, Calendar.JANUARY, 1);
+    	Calendar date9 = Calendar.getInstance();
+    	date9.set(2010, Calendar.JANUARY, 1);
+    	
+
+    	ArticleSource s = new ArticleSource("F:/BanditProject/");
     	
     	double[] chris_disps = {.9, .9, .9, .9, .1, .1, .1, .1};
-    	double[] dan_disps = {.1,.1,.1,.1,.9,.9,.1,.1};
-    	
-    	// Person billy = new Person(true);
-    	// Person joe = new Person(true);
-    	// Person chris = new Person(true);
+    	double[] dan_disps = {.05,.05,.05,.05,.9,.9,.3,.5};
+
     	Person dan = new Person(dan_disps, 0.25, 0.8);
+    	Thread[] t = new Thread[6];
+    	t[0] = new Thread(new RunnableSimulator("Test1", dan, 'e', 50, 20, 0, .25, 200, s, date1, "dan_test1_2.txt"));
+    	t[1] = new Thread(new RunnableSimulator("T2", dan, 'e', 50, 20, 0, .25, 200, s, date2, "dan_test2_2.txt"));
+    	t[2] = new Thread(new RunnableSimulator("T3", dan, 'e', 50, 20, 0, .25, 200, s, date3, "dan_test3_2.txt"));
+    	t[3] = new Thread(new RunnableSimulator("T4", dan, 'e', 50, 20, 0, .25, 200, s, date4, "dan_test4_2.txt"));
+    	t[4] = new Thread(new RunnableSimulator("T4", dan, 'e', 50, 20, 0, .25, 200, s, date5, "dan_test5_2.txt"));
+    	t[5] = new Thread(new RunnableSimulator("T5", dan, 'e', 50, 20, 0, .25, 200, s, date6, "dan_test6_2.txt"));
+
+
     	
-    	double[] e1Disps = {.1,.1,.1,.1,.9,.9,.1,.1};
-    	Expert e1 = new Expert(new Context(e1Disps), 0.25, 0.8);
+    	for (int i = 0; i < 6; i++)
+    		t[i].start();
+    	for (int i = 0; i < 6; i++) {
+    		try { t[i].join(); }
+    		catch(InterruptedException e) {System.out.println("Error, interrupted");}
+    	}
     	
-    	Expert[] exps = new Expert[10];
-    	exps[0] = e1;
-    	for (int i = 1; i < 10; i++) 
-    		exps[i] = new Expert();
     	
+    	
+    	/*
     	//ExpertSimulator sim = new ExpertSimulator(dan, exps, s, date, 0, 0.9);
         ExpertSimulator sim = new ExpertSimulator(dan, 20, s, date, 0, 0.9);
         ArrayList<Double> ctrs = new ArrayList<Double>();
@@ -58,20 +84,10 @@ public class Main {
                 System.out.println(ctrs.get(l));
             }
     	}
+    	*/
+
     	
-    	
-    	// HashMap<Article, Double> b = new HashMap<Article, Double>();
-    	// HashMap<Article, Double> j = new HashMap<Article, Double>();
-    	// HashMap<Article, Double> c = new HashMap<Article, Double>();
-    	// HashMap<Article, Double> d = new HashMap<Article, Double>();
-    	
-    	// Calendar dateBilly = Calendar.getInstance();
-    	// dateBilly.set(2010, Calendar.MAY, 7);
-    	// Calendar dateJoe = Calendar.getInstance();
-    	// dateJoe.set(2010, Calendar.MAY, 7);
-    	// Calendar dateDan = Calendar.getInstance();
-    	// dateDan.set(2010, Calendar.MAY, 7);
-    	// Calendar dateChris = Calendar.getInstance();
+
     	// dateChris.set(2010, Calendar.MAY, 7);
     	// Thread[] t = new Thread[4];
     	// t[0] = new Thread(new RunnableSimulator("Billy", billy, 'e', 50, 20, 0, .9, 20, s, dateBilly));

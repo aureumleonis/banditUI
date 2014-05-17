@@ -106,15 +106,12 @@ public class Exp4Simulator {
 			// Step 1 : get advice vectors from all experts.
 			expertAdvice = new HashMap<Expert, HashMap<Article, Double>>();
 			getAllExpertsAdvice(articlesDisplayed, expertAdvice);
-			/*for (int i = 0; i < num_experts; i++) {
-				for (Expert e : totalledExpertAdvice.keySet()) {
-					totalledAdvice = totalledExpertAdvice.get(e);
-					for (Article a : totalledAdvice.keySet()) {
-						totalledAdvice.put(a, 
-							totalledAdvice.get(a) + expertAdvice.get(e).get(a));
-					}
+			for (Expert e : totalledExpertAdvice.keySet()) {
+				for (Article a : totalledExpertAdvice.get(e).keySet()) {
+					totalledExpertAdvice.get(e).put(a, 
+						totalledExpertAdvice.get(e).get(a) + expertAdvice.get(e).get(a));
 				}
-			}*/
+			}
 			
 			// Step 2 : Get probability distribution over articles.
 			Wt = 0;
@@ -123,9 +120,11 @@ public class Exp4Simulator {
 			}
 			for (int i = 0; i < num_articles; i++) {
 				sum = 0;
+				
 				for (int j = 0; j < num_experts; j++) {
 					sum += w[j]*expertAdvice.get(experts[j]).get(articles[i]) / Wt;
 				}
+
 				probabilities[i] = (1 - learning_rate) * sum * (learning_rate/num_articles);
 			}
 			
@@ -137,11 +136,14 @@ public class Exp4Simulator {
 			
 			// Create hashmap of articles to probabilities for easy use later.
 			// This loop fills that hashmap and finishes normalizing probabilities.
-			articleProbs = new HashMap<Article, Double>();
+			if (space == 0)	
+				articleProbs = new HashMap<Article, Double>();
 			for (int i = 0; i < probabilities.length; i++) {
 				probabilities[i] /= total;
-				articleProbs.put(articles[i], probabilities[i]);
-			}
+				if (space == 0)
+					articleProbs.put(articles[i], probabilities[i]);
+			}	
+			
 			
 
 			
@@ -159,9 +161,14 @@ public class Exp4Simulator {
 			articlesDisplayed.put(articleToDisplay, 
 					articlesDisplayed.get(articleToDisplay)+1);
 		}
-		
+		for (Expert e : totalledExpertAdvice.keySet()) {
+			for (Article a : totalledExpertAdvice.get(e).keySet()) {
+				totalledExpertAdvice.get(e).put(a, 
+						totalledExpertAdvice.get(e).get(a)/8);
+			}
+		}
 		// Save current state for decoupling
-		currentAdvice = expertAdvice;
+		currentAdvice = totalledExpertAdvice;
 		currentDisplay = articlesDisplayed;
 		currentArticleProbs = articleProbs;
 		//learning_rate *= .99;

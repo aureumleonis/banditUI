@@ -30,8 +30,9 @@ public class ClickProbCalc {
 	// For testing various coefficients
 	public static double calcClickProb(Article article, Person p, double x) {
 		double score = calcFeatureVectorScore(article, p.getFeatureVector(article.getTopic()));
-		score = score * p.getDisposition(article.getTopic());
+		
 		double click_chance = 1.0 - 1.0/(Math.exp(x*score));
+		score = score * p.getDisposition(article.getTopic());
 		return click_chance;
 	}
     
