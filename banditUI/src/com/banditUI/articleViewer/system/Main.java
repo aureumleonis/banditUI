@@ -33,25 +33,26 @@ public class Main {
     	date9.set(2010, Calendar.JANUARY, 1);
     	
 
-    	ArticleSource s = new ArticleSource("F:/BanditProject/");
+    	ArticleSource s = new ArticleSource(args[0]);
     	
     	double[] chris_disps = {.9, .9, .9, .9, .1, .1, .1, .1};
     	double[] dan_disps = {.05,.05,.05,.05,.9,.9,.3,.5};
 
     	Person dan = new Person(dan_disps, 0.25, 0.8);
-    	Thread[] t = new Thread[6];
+        int l = 1;
+    	Thread[] t = new Thread[l];
     	t[0] = new Thread(new RunnableSimulator("Test1", dan, 'e', 50, 20, 0, .25, 200, s, date1, "dan_test1_2.txt"));
-    	t[1] = new Thread(new RunnableSimulator("T2", dan, 'e', 50, 20, 0, .25, 200, s, date2, "dan_test2_2.txt"));
-    	t[2] = new Thread(new RunnableSimulator("T3", dan, 'e', 50, 20, 0, .25, 200, s, date3, "dan_test3_2.txt"));
-    	t[3] = new Thread(new RunnableSimulator("T4", dan, 'e', 50, 20, 0, .25, 200, s, date4, "dan_test4_2.txt"));
-    	t[4] = new Thread(new RunnableSimulator("T4", dan, 'e', 50, 20, 0, .25, 200, s, date5, "dan_test5_2.txt"));
-    	t[5] = new Thread(new RunnableSimulator("T5", dan, 'e', 50, 20, 0, .25, 200, s, date6, "dan_test6_2.txt"));
+    	// t[1] = new Thread(new RunnableSimulator("T2", dan, 'e', 50, 20, 0, .25, 200, s, date2, "dan_test2_2.txt"));
+    	// t[2] = new Thread(new RunnableSimulator("T3", dan, 'e', 50, 20, 0, .25, 200, s, date3, "dan_test3_2.txt"));
+    	// t[3] = new Thread(new RunnableSimulator("T4", dan, 'e', 50, 20, 0, .25, 200, s, date4, "dan_test4_2.txt"));
+    	// t[4] = new Thread(new RunnableSimulator("T4", dan, 'e', 50, 20, 0, .25, 200, s, date5, "dan_test5_2.txt"));
+    	// t[5] = new Thread(new RunnableSimulator("T5", dan, 'e', 50, 20, 0, .25, 200, s, date6, "dan_test6_2.txt"));
 
 
     	
-    	for (int i = 0; i < 6; i++)
+    	for (int i = 0; i < l; i++)
     		t[i].start();
-    	for (int i = 0; i < 6; i++) {
+    	for (int i = 0; i < l; i++) {
     		try { t[i].join(); }
     		catch(InterruptedException e) {System.out.println("Error, interrupted");}
     	}

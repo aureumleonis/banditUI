@@ -55,6 +55,9 @@ public class RunnableSimulator implements Runnable {
 			total = 0;
 			for (int i = 0; i < days_per_sample; i++) {
 				int result = sim.runOneDay();
+				if (i == 0) {
+					sim.showWindow();
+				}
 				System.out.println(result + " -- " + sim.getNumberDisplayed());
     			if (result < 0) {
     				i--;

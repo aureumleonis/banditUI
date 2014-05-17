@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import javax.swing.SwingUtilities;
+import java.util.concurrent.Semaphore;
 
 public abstract class Simulator {
 	protected Exp4Simulator bandit;
@@ -38,7 +40,7 @@ public abstract class Simulator {
 		currentDisplay = new ArrayList(display.entrySet());
 		Collections.sort(currentDisplay, new Comparator<Entry<Article, Integer>>() {
 			public int compare(Entry<Article, Integer> o1, Entry<Article, Integer> o2) {
-				return Integer.compare(o1.getValue(), o2.getValue());
+				return Integer.compare(o2.getValue(), o1.getValue());
 			}
 		});
 	}
@@ -85,5 +87,23 @@ public abstract class Simulator {
 			}
 		}
 		return num;
+	}
+
+	public void showWindow() {
+		Semaphore lock = new Semaphore(1);
+		try {
+			SwingUtilities.invokeAndWait(new Runnable() {
+				public void run() {
+					Display win = new Display(day, currentDisplay, lock);
+					win.setVisible(true);
+				}
+			});
+			lock.acquire();
+		}
+		catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		//Wait...
+		lock.release();
 	}
 }
